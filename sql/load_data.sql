@@ -1,2 +1,15 @@
 INSERT INTO BlogEntry (entrydate, content) VALUES (Now(), 'entry1');
 INSERT INTO BlogEntry (entrydate, content) VALUES (Now(), 'entry2');
+INSERT INTO BlogEntry (entrydate, content) VALUES (Now(), 'entry3');
+INSERT INTO BlogEntry (entrydate, content) VALUES (Now(), 'entry4');
+INSERT INTO BlogEntry (entrydate, content) VALUES (Now(), 'entry5');
+INSERT INTO BlogEntry (entrydate, content) VALUES (Now(), 'entry6');
+INSERT INTO BlogEntry (entrydate, content) VALUES (Now(), 'entry7');
+INSERT INTO BlogEntry (entrydate, content) VALUES (Now(), 'entry8');
+INSERT INTO BlogEntry (entrydate, content) VALUES (Now(), 'entry9');
+INSERT INTO BlogEntry (entrydate, content) VALUES (Now(), 'entry10');
+INSERT INTO BlogEntry (entrydate, content) VALUES (Now(), 'entry11');
+INSERT INTO BlogEntry (entrydate, content) VALUES (Now(), 'entry12');
+INSERT INTO BlogEntry (entrydate, content) VALUES (Now(), 'entry13');
+INSERT INTO BlogEntry (entrydate, content) VALUES (Now(), 'entry14');
+INSERT INTO BlogEntry (entrydate, content) VALUES (Now(), 'entry15');
