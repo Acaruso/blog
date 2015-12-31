@@ -1,6 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
+
 	<h1> Fresh Veg </h1>
 	<h2> A blog for music and fresh produce </h2>
 	<h2> login page </h2>
+	
+	<form method="POST">
+		<h2>Login</h2>
+		Username: <input type="text" name="username"><br>
+		Password: <input type="password" name="password"><br>
+		<input type="submit" value="Submit"><br>
+	</form>
+
 {% endblock %}
