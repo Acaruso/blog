@@ -32,6 +32,7 @@ def login_route():
 				session['username'] = username
 
 				print "authentication successful!"
+				print "username: " + session['username']
 
 				return redirect("/")
 			else:

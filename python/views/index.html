@@ -2,12 +2,24 @@
 {% block content %}
 	<h1> Fresh Veg </h1>
 	<h2> A blog for music and fresh produce </h2>
-
-	<div><a href="/login">login</a></div>
-
-	<div> {{ str }} </div> 
-	{% autoescape false %}
-	{{str2}} 
-	{% endautoescape %}
+	
+	{% if logged_in %}
+		<div>Welcome {{username}}</div>
+	{% else %}
+		<div><a href="/login">login</a></div>
+	{% endif %}
+	
+	{% for entry in entries %}
+		<div> {{ entry.date }} </div>
+		{% autoescape false %}
+			<div> {{ entry.content }} </div>
+		{% endautoescape %}
+	{% endfor %}
+	{% if older %}
+		<a href ="/?page={{plus1}}">older entries</a>
+	{% endif %}
+	{% if newer %}
+		<a href ="/?page={{minus1}}">newer entries</a>
+	{% endif %}
 
 {% endblock %}
