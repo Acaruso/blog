@@ -1,2 +1,2 @@
 # blog
-simple blog done with flask
+A simple blog using Flask and MySQL
