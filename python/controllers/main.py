@@ -1,4 +1,8 @@
 from flask import *
+from flask import request
+import datetime
+
+
 from flask.ext.mysqldb import MySQL
 
 mysql = MySQL()
@@ -37,7 +41,7 @@ def get_range_entries(begin, end):
 	size    = cur.execute(query)
 	res     = cur.fetchall()
 	entries = []
-	for i in range (0, size):
+	for i in range (size-1, -1, -1):
 		entry = Entry(res[i][0], res[i][1], res[i][2])
 		entries.append(entry)
 	return entries
@@ -48,12 +52,43 @@ def get_num_entries():
 	cur.execute(query)
 	return cur.fetchall()[0][0]
 	
+def get_entry_ids():
+	cur   = mysql.connection.cursor()
+	query = "SELECT entryid FROM blog.BlogEntry"
+	size = cur.execute(query)
+	res = cur.fetchall();
+	entries = []
+	
+	for i in range (size-1, -1, -1):
+		entries.append(res[i][0])
+		
+	return entries
+	
 def check_username():
 	if(session.has_key('username') == True):
 		username = session['username']
+		
+def handle_new_blog_post():
 
-@main.route('/')
+	req = request.form
+	
+	new_post = req.get('new_post')
+
+	cur = mysql.connection.cursor()
+	
+	date = datetime.datetime.now()
+	str_time = date.strftime('%Y-%m-%d')
+
+	query = "INSERT INTO blog.BlogEntry (entrydate, content) VALUES ('" + str_time + "', '" + new_post + "')"
+	cur.execute(query)
+	mysql.connection.commit()
+
+
+@main.route('/', methods=['GET','POST'])
 def main_route():
+	
+	if request.method == 'POST':
+		handle_new_blog_post()
 
 	page = request.args.get('page')
 	if page == None or page == '':
@@ -62,23 +97,23 @@ def main_route():
 		page = int(page)
 
 	num_entries = get_num_entries()
-
+	
+	entry_ids = get_entry_ids()
+	
 	begin = (page * 5) + 1
 	end   = begin + 4
 
 	if end > num_entries:
-		end = num_entries
-
-	entries = get_range_entries(begin, end)
+		end = num_entries - 1
+		
+	entries = get_range_entries(entry_ids[end], entry_ids[begin])
 
 	older = False
 	newer = False
 
 	if page > 0:
 		newer = True
-	if end < num_entries and num_entries > 5:
-		print(end)
-		print(num_entries)
+	if end < num_entries-1 and num_entries > 5:
 		older = True
 	
 	username  = None
