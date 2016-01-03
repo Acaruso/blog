@@ -1,5 +1,6 @@
 from flask import *
 from flask import request
+from flask import redirect
 import datetime
 
 
@@ -82,6 +83,7 @@ def handle_new_blog_post():
 	query = "INSERT INTO blog.BlogEntry (entrydate, content) VALUES ('" + str_time + "', '" + new_post + "')"
 	cur.execute(query)
 	mysql.connection.commit()
+	return redirect("/")
 
 
 @main.route('/', methods=['GET','POST'])
@@ -99,14 +101,20 @@ def main_route():
 	num_entries = get_num_entries()
 	
 	entry_ids = get_entry_ids()
-	
-	begin = (page * 5) + 1
+		
+	begin = page * 5
 	end   = begin + 4
 
 	if end > num_entries:
 		end = num_entries - 1
 		
 	entries = get_range_entries(entry_ids[end], entry_ids[begin])
+	
+	print (entry_ids[end])
+	print (entry_ids[begin])
+	print num_entries
+	print entry_ids[1]
+
 
 	older = False
 	newer = False

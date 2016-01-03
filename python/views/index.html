@@ -22,4 +22,12 @@
 		<a href ="/?page={{minus1}}">newer entries</a>
 	{% endif %}
 
+	{% if logged_in %}	
+		<div>Create a new blog post!</div>
+		<form method="POST" id="new_post">
+			<input type="submit" value="Submit new post">
+		</form>
+		<textarea rows="4" cols="50" name="new_post" form="new_post"></textarea>
+	{% endif %}
+
 {% endblock %}
