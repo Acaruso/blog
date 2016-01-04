@@ -1,27 +1,59 @@
 {% extends "base.html" %}
 {% block content %}
+	<header>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Fresh Veg</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/">Home</a></li>
+            
+            {% if logged_in %}
+				<li><a href="#">Logged in as {{username}}</a></li>
+			{% else %}
+				<li><a href="/login">Log in</a></li>
+			{% endif %}
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+    </header>
+
+	<div class="container">
 	<h1> Fresh Veg </h1>
 	<h2> A blog for music and fresh produce </h2>
-	
-	{% if logged_in %}
-		<div>Welcome {{username}}</div>
-	{% else %}
-		<div><a href="/login">login</a></div>
-	{% endif %}
+	</div>
 	
 	{% for entry in entries %}
-		<div> {{ entry.date }} </div>
+		<div class="entry">
+		<div class="container">
+		<div class="date"> {{ entry.date }} </div>
 		{% autoescape false %}
 			<div> {{ entry.content }} </div>
 		{% endautoescape %}
+		</div>
+		</div>
 	{% endfor %}
+	
+	<div class="container">
 	{% if older %}
-		<a href ="/?page={{plus1}}">older entries</a>
+		<a href ="/?page={{plus1}}" class="btn btn-info" role="button">older entries</a>
 	{% endif %}
 	{% if newer %}
-		<a href ="/?page={{minus1}}">newer entries</a>
+		<a href ="/?page={{minus1}}" class="btn btn-info" role="button">newer entries</a>
 	{% endif %}
-
+	</div>
+	
+	<div class="container">
 	{% if logged_in %}	
 		<div>Create a new blog post!</div>
 		<form method="POST" id="new_post">
@@ -29,5 +61,6 @@
 		</form>
 		<textarea rows="4" cols="50" name="new_post" form="new_post"></textarea>
 	{% endif %}
+	</div>
 
 {% endblock %}

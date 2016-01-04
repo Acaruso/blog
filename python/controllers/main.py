@@ -34,7 +34,11 @@ def get_all_entries():
 		entry = Entry(res[i][0], res[i][1], res[i][2])
 		entries.append(entry)
 	return entries
-
+	
+def process_date(date):
+	format = "%b %d %Y"
+	return date.strftime(format)
+	
 def get_range_entries(begin, end):
 	cur     = mysql.connection.cursor()
 	query   = "SELECT * FROM blog.BlogEntry WHERE entryid >= " + str(begin)
@@ -43,7 +47,7 @@ def get_range_entries(begin, end):
 	res     = cur.fetchall()
 	entries = []
 	for i in range (size-1, -1, -1):
-		entry = Entry(res[i][0], res[i][1], res[i][2])
+		entry = Entry(res[i][0], process_date(res[i][1]), res[i][2])
 		entries.append(entry)
 	return entries
 
@@ -105,16 +109,10 @@ def main_route():
 	begin = page * 5
 	end   = begin + 4
 
-	if end > num_entries:
+	if end >= num_entries:
 		end = num_entries - 1
-		
-	entries = get_range_entries(entry_ids[end], entry_ids[begin])
-	
-	print (entry_ids[end])
-	print (entry_ids[begin])
-	print num_entries
-	print entry_ids[1]
 
+	entries = get_range_entries(entry_ids[end], entry_ids[begin])
 
 	older = False
 	newer = False
