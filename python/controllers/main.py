@@ -18,8 +18,8 @@ class Entry:
 	
 def get_entry(id):
 	cur   = mysql.connection.cursor()
-	query = "SELECT * FROM blog.BlogEntry WHERE entryid = " + str(id)
-	cur.execute(query)
+	id_str = str(id)
+	cur.execute("SELECT * FROM blog.BlogEntry WHERE entryid = %s", (id_str))
 	res   = cur.fetchall()
 	entry = Entry(id, res[0][1], res[0][2])
 	return entry
@@ -40,11 +40,11 @@ def process_date(date):
 	return date.strftime(format)
 	
 def get_range_entries(begin, end):
-	cur     = mysql.connection.cursor()
-	query   = "SELECT * FROM blog.BlogEntry WHERE entryid >= " + str(begin)
-	query  += " AND entryid <= " + str(end)
-	size    = cur.execute(query)
-	res     = cur.fetchall()
+	cur = mysql.connection.cursor()
+	begin_str = str(begin)
+	end_str = str(end)
+	size = cur.execute("SELECT * FROM blog.BlogEntry WHERE entryid >= %s AND entryid <= %s", (begin_str, end_str))
+	res = cur.fetchall()
 	entries = []
 	for i in range (size-1, -1, -1):
 		entry = Entry(res[i][0], process_date(res[i][1]), res[i][2])
@@ -82,10 +82,11 @@ def handle_new_blog_post():
 	cur = mysql.connection.cursor()
 	
 	date = datetime.datetime.now()
-	str_time = date.strftime('%Y-%m-%d')
+	time_str = date.strftime('%Y-%m-%d')
 
-	query = "INSERT INTO blog.BlogEntry (entrydate, content) VALUES ('" + str_time + "', '" + new_post + "')"
-	cur.execute(query)
+	#query = "INSERT INTO blog.BlogEntry (entrydate, content) VALUES ('" + str_time + "', '" + #new_post + "')"
+	
+	cur.execute("INSERT INTO blog.BlogEntry (entrydate, content) VALUES ('%s', '%s')", (time_str, new_post))
 	mysql.connection.commit()
 	return redirect("/")
 
