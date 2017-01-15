@@ -84,8 +84,6 @@ def handle_new_blog_post():
 	date = datetime.datetime.now()
 	time_str = date.strftime('%Y-%m-%d')
 
-	#query = "INSERT INTO blog.BlogEntry (entrydate, content) VALUES ('" + str_time + "', '" + #new_post + "')"
-	
 	cur.execute("INSERT INTO blog.BlogEntry (entrydate, content) VALUES ('%s', '%s')", (time_str, new_post))
 	mysql.connection.commit()
 	return redirect("/")

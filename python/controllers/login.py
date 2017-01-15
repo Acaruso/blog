@@ -19,8 +19,7 @@ def login_route():
 		
 		cur = mysql.connection.cursor()
 		
-		query = "SELECT password FROM blog.User WHERE username = '" + username + "'"
-		cur.execute(query)
+		cur.execute("SELECT password FROM blog.User WHERE username = '%s'", (username))
 		result = cur.fetchall()
 		if not result:
 			print "user does not exist!"
