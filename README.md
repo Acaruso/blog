@@ -1,2 +1,2 @@
-# Simple blog
-A simple blog using Flask and MySQL
+# Python blog
+A simple blog using Python, Flask, and MySQL
